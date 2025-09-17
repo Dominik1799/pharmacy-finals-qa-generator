@@ -37,6 +37,7 @@ async def index(request: Request):
     # list files in data directory and remove .json suffix
     files = os.listdir(settings.PARSED_QUESTIONS_DIRECTORY)
     topics = [f[:-5] for f in files if f.endswith(".json")]
+    topics.sort()
     return templates.TemplateResponse(request=request, name="index.html", context={"request": request, "topics": topics})
 
 
