@@ -1,0 +1,45 @@
+
+name: Build and deploy pharmacy-qa app
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - fastapi-server/**
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./fastapi-server
+          file: ./fastapi-server/Dockerfile
+          push: true
+          tags: |
+            dominik9917/pharmacy-qa:latest
+
+      - name: Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_SERVER_IP }}
+          port: ${{ secrets.DEPLOY_SERVER_SSH_PORT }}
+          username: ${{ secrets.DEPLOY_SERVER_USER }}
+          password: ${{ secrets.DEPLOY_SERVER_USER_PASSWORD }}
+          script: |
+            cd ~/projects/pharmacy-qa
+            docker compose pull pharmacy-qa
+            docker compose up --force-recreate --no-deps pharmacy-qa -d
+            docker image prune -af
