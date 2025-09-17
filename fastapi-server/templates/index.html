@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generátor otázok na štátnu skúšku z farmácie</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-start">
+    <header class="mt-12 mb-8">
+        <h1 class="text-3xl md:text-5xl font-bold text-center text-gray-800">
+            Generátor otázok na štátnu skúšku z farmácie
+        </h1>
+    </header>
+    <main class="w-full max-w-4xl px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for topic in topics %}
+            <a href="/topic/{{ topic }}"
+               class="block bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ease-in-out p-6 text-center text-lg font-semibold text-gray-700 hover:bg-indigo-100 hover:text-indigo-800 cursor-pointer transform hover:-translate-y-1">
+                {{ topic }}
+            </a>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
