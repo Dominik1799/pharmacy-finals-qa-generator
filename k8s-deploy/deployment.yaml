@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: pharmacy-qa
-          image: dominik9917/pharmacy-qa:v-2
+          image: dominik9917/pharmacy-qa:v-4
           ports:
             - containerPort: 8000
           envFrom:
