@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pharmacy-qa-cert
+  namespace: pharmacy-qa
+spec:
+  secretName: pharmacy-qa-certificate
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: pharmacy-qa.dominikh.eu
+  dnsNames:
+    - pharmacy-qa.dominikh.eu
+    - www.pharmacy-qa.dominikh.eu

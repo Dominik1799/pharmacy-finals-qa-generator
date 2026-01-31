@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pharmacy-qa-deployment
+  namespace: pharmacy-qa
+  labels:
+    app: pharmacy-qa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pharmacy-qa
+  template:
+    metadata:
+      labels:
+        app: pharmacy-qa
+    spec:
+      containers:
+        - name: pharmacy-qa
+          image: dominik9917/pharmacy-qa:v-2
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: pharmacy-qa-secret

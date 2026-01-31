@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pharmacy-qa-ingress
+  namespace: pharmacy-qa
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-global-redirect-https@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - pharmacy-qa.dominikh.eu
+        - www.pharmacy-qa.dominikh.eu
+      secretName: pharmacy-qa-certificate
+  rules:
+    - host: pharmacy-qa.dominikh.eu
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pharmacy-qa-service
+                port:
+                  number: 8000
+    - host: www.pharmacy-qa.dominikh.eu
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pharmacy-qa-service
+                port:
+                  number: 8000
